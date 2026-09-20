@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: health-ingress
+  namespace: nittfest
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /api/health
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - nittfest-task.centralindia.cloudapp.azure.com
+      secretName: nittfest-tls
+  rules:
+    - host: nittfest-task.centralindia.cloudapp.azure.com
+      http:
+        paths:
+          - path: /api/user-health
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8081
+          - path: /api/order-health
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8082

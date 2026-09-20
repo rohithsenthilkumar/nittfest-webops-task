@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-config
+  namespace: nittfest
+
+data:
+  USER_SERVICE_URL: "http://user-service:8081"
+

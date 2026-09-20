@@ -138,12 +138,12 @@ func main() {
 		port = "8082"
 	}
 
-	log.Printf("Order Service starting on 127.0.0.1:%s", port)
+	log.Printf("Order Service starting on 0.0.0.1:%s", port)
 	log.Printf("User Service URL: %s", getUserServiceURL())
 
-	http.HandleFunc("/api/health", enableCORS(handleHealth))
+	http.HandleFunc("/api/order-health", enableCORS(handleHealth))
 	http.HandleFunc("/api/orders", enableCORS(handleGetOrders))
 	http.HandleFunc("/api/order", enableCORS(handleGetOrderByID))
 
-	log.Fatal(http.ListenAndServe("127.0.0.1:"+port, nil))
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil))
 }

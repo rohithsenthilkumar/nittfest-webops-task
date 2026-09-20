@@ -15,22 +15,22 @@ function App() {
   const [errorUsers, setErrorUsers] = useState(null)
   const [errorOrders, setErrorOrders] = useState(null)
 
-  const userServiceUrl = import.meta.env.VITE_USER_SERVICE_URL || 'http://localhost:8081'
-  const orderServiceUrl = import.meta.env.VITE_ORDER_SERVICE_URL || 'http://localhost:8082'
+  const userServiceUrl = '/api/users'
+  const orderServiceUrl = '/api/orders'
 
   const checkHealth = async () => {
     setUserServiceStatus(prev => ({ ...prev, loading: true }))
     setOrderServiceStatus(prev => ({ ...prev, loading: true }))
     
     try {
-      await axios.get(`${userServiceUrl}/api/health`, { timeout: 3000 })
+      await axios.get(`/api/user-health`, { timeout: 3000 })
       setUserServiceStatus({ loading: false, status: 'online' })
     } catch {
       setUserServiceStatus({ loading: false, status: 'offline' })
     }
 
     try {
-      await axios.get(`${orderServiceUrl}/api/health`, { timeout: 3000 })
+      await axios.get(`/api/order-health`, { timeout: 3000 })
       setOrderServiceStatus({ loading: false, status: 'online' })
     } catch {
       setOrderServiceStatus({ loading: false, status: 'offline' })
@@ -41,7 +41,7 @@ function App() {
     setLoadingUsers(true)
     setErrorUsers(null)
     try {
-      const res = await axios.get(`${userServiceUrl}/api/users`)
+      const res = await axios.get(userServiceUrl)
       setUsers(res.data)
       setLoadingUsers(false)
     } catch (err) {
@@ -54,7 +54,7 @@ function App() {
     setLoadingOrders(true)
     setErrorOrders(null)
     try {
-      const res = await axios.get(`${orderServiceUrl}/api/orders`)
+      const res = await axios.get(orderServiceUrl)
       setOrders(res.data)
       setLoadingOrders(false)
     } catch (err) {
